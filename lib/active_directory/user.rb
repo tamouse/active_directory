@@ -106,6 +106,23 @@ module ActiveDirectory
 		end
 
 		#
+		# Disables the account
+		#
+		def disable
+			new_mask = userAccountControl.to_i | UAC_ACCOUNT_DISABLED
+			update_attributes userAccountControl: new_mask.to_s
+		end
+
+		#
+		# Enables the account
+		#
+		def enable
+			new_mask = userAccountControl.to_i ^ UAC_ACCOUNT_DISABLED
+			update_attributes userAccountControl: new_mask.to_s
+		end
+
+
+		#
 		# Returns true if this account is expired.
 		#
 		def expired?
