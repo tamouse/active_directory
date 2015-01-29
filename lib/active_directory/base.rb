@@ -422,7 +422,8 @@ module ActiveDirectory
 			begin
 				attributes.merge!(required_attributes)
 				if @@ldap.add(:dn => dn.to_s, :attributes => attributes)
-					return find_by_distinguishedName(dn.to_s)
+					ldap_obj= @@ldap.search(:base => dn.to_s)
+					return new(ldap_obj[0])
 				else
 					return nil
 				end
@@ -555,7 +556,7 @@ module ActiveDirectory
 		end
 
 		def set_attr(name, value)
-			@attributes[name.to_sym] = encode_field(name, value)
+			@attributes[name.to_sym] = self.class.encode_field(name, value)
 		end
 
 		##
