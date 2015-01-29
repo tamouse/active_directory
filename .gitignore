@@ -1,2 +1,8 @@
 html
 pkg
+.bundle/
+bin/
+vendor/
+Gemfile.lock
+livewire-tests/support/active_directory.yml
+.vagrant/

@@ -140,21 +140,20 @@ module ActiveDirectory
 		# time they successfully log into the domain.
 		#
 		def change_password(new_password, force_change = false)
-			settings = @@settings.dup.merge({
-				:port => 636,
-				:encryption => { :method => :simple_tls }
-			})
+                  settings = @@settings.dup.merge({
+                      :port => 636,
+                      :encryption => { :method => :simple_tls }
+                    })
 
-			ldap = Net::LDAP.new(settings)
-			ldap.modify(
-				:dn => distinguishedName,
-				:operations => [
-					[ :replace, :lockoutTime, [ '0' ] ],
-					[ :replace, :unicodePwd, [ FieldType::Password.encode(new_password) ] ],
-					[ :replace, :userAccountControl, [ UAC_NORMAL_ACCOUNT.to_s ] ],
-					[ :replace, :pwdLastSet, [ (force_change ? '0' : '-1') ] ]
-				]
-			)
+                  ldap = Net::LDAP.new(settings)
+                  ldap.bind
+                  operations = [
+                    [ :replace, :lockoutTime, [ '0' ] ],
+                    [ :replace, :unicodePwd, [ FieldType::Password.encode(new_password) ] ],
+                    [ :replace, :userAccountControl, [ UAC_NORMAL_ACCOUNT.to_s ] ],
+                    [ :replace, :pwdLastSet, [ (force_change ? '0' : '-1') ] ]
+                  ]
+                  ldap.modify(:dn => distinguishedName, :operations => operations)
 		end
 
 		#

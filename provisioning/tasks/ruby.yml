@@ -1,0 +1,15 @@
+---
+- name: install rvm development mode (user is vagrant)
+  shell: /usr/bin/curl -sSL https://get.rvm.io | bash creates=/home/vagrant/.rvm
+
+- name: install ruby 2.2.0
+  shell: /bin/bash -l -c 'rvm install 2.2.0' creates=/home/vagrant/.rvm/rubies/ruby-2.2.0
+  
+- name: install ruby 2.1.5
+  shell: /bin/bash -l -c 'rvm install 2.1.5' creates=/home/vagrant/.rvm/rubies/ruby-2.1.5
+  
+- name: install ruby 2.0.0-p598
+  shell: /bin/bash -l -c 'rvm install 2.0.0-p598' creates=/home/vagrant/.rvm/rubies/ruby-2.0.0-p598
+  
+- name: install ruby 1.9.3-p551
+  shell: /bin/bash -l -c 'rvm install 1.9.3-p551' creates=/home/vagrant/.rvm/rubies/ruby-1.9.3-p551
