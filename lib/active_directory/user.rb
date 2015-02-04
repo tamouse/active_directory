@@ -163,6 +163,7 @@ module ActiveDirectory
 			})
 
 			ldap = Net::LDAP.new(settings)
+			ldap.bind
 			ldap.modify(
 				:dn => distinguishedName,
 				:operations => [
