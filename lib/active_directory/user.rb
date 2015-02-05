@@ -146,6 +146,8 @@ module ActiveDirectory
 			})
 
 			ldap = Net::LDAP.new(settings)
+			ldap.bind 	# NOTE: fixes problem with being
+					# unable to process modify request                        
 			ldap.modify(
 				:dn => distinguishedName,
 				:operations => [
