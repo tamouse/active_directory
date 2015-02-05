@@ -18,24 +18,33 @@
 #
 #++ license
 
-module ActiveDirectory
-	module FieldType
-		class Password
-			#
-			# Encodes an unencrypted password into an encrypted password
-			# that the Active Directory server will understand.
-			#
-			def self.encode(password)
-				("\"#{password}\"".split(//).collect { |c| "#{c}\000" }).join
-			end
+require 'base64'
+require 'iconv'
 
-			#
-			# Always returns nil, since you can't decrypt the User's encrypted
-			# password.
-			#
-			def self.decode(hashed)
-				nil
-			end
-		end
-	end
+module ActiveDirectory
+  module FieldType
+    class Password
+      #
+      # Encodes an unencrypted password that the Active Directory
+      # server will understand.
+      #
+      def self.encode(password)
+        ("\"#{password}\"".split(//).collect { |c| "#{c}\000" }).join
+      end
+
+      def self.alt_encode(password, base64=false)
+        qp = ?" + password + ?"
+        cqp = Iconv.conv('UTF-16LE', 'UTF-8', qp)
+        Base64.strict_encode64(cqp) if base64
+      end
+
+      #
+      # Always returns nil, since you can't decrypt the User's encrypted
+      # password.
+      #
+      def self.decode(hashed)
+        nil
+      end
+    end
+  end
 end

@@ -46,11 +46,14 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<net-ldap>, [">= 0.1.1"])
+      s.add_runtime_dependency(%q<iconv>, [">= 1.0.4"])
     else
       s.add_dependency(%q<net-ldap>, [">= 0.1.1"])
+      s.add_dependency(%q<iconv>, [">= 1.0.4"])
     end
   else
     s.add_dependency(%q<net-ldap>, [">= 0.1.1"])
+    s.add_dependency(%q<iconv>, [">= 1.0.4"])
   end
 end
 
